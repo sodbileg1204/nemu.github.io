@@ -1,72 +1,98 @@
-<div class="container">
-	<div class="scene">
-		
-		<div class="cubes">
-			
-			<div class="cube">
-				<div class="face face--front">
-					<div class="face__wrap">
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-					</div>
-				</div>
-				<div class="face face--back">
-					<div class="face__wrap">
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-					</div>
-				</div>
-				<div class="face face--left">
-					<div class="face__wrap">
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-					</div>
-				</div>
-				<div class="face face--right">
-					<div class="face__wrap">
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-					</div>
-				</div>
-				<div class="face face--top">
-					<div class="face__wrap">
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-					</div>
-				</div>
-				<div class="face face--bottom">
-					<div class="face__wrap">
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-						<div class="face__panel"></div>
-					</div>
-				</div>
-			</div>
-			
-		</div>	
-		
-	</div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Timer</title>
+  <style>
+    div {
+      display: flex;
+      gap: 10px;
+      font-size: 2rem;
+      font-family: Arial, sans-serif;
+      align-items: center;
+    }
 
-<div class="collection">
-	<a class="collection__link" href="https://codepen.io/collection/02388423440b98155f8e4002bde094f2" target='_blank'>View the collection<span></span></a>
-</div>
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      height: 2rem;
+      overflow: hidden;
+    }
 
-<a href="https://greensock.com" target="_blank"><img class="gsap-3-logo" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/gsap-3-logo.svg" width="150" /></a>
+    li {
+      padding: 5px;
+      transition: transform 0.5s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <ul class="dayTens"><li>0</li><li>1</li><li>2</li><li>3</li></ul>
+    <ul class="dayOnes"><li>0</li><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li></ul>
+    <span>:</span>
+    <ul class="hourTens"><li>0</li><li>1</li><li>2</li></ul>
+    <ul class="hourOnes"><li>0</li><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li></ul>
+    <span>:</span>
+    <ul class="minuteTens"><li>0</li><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li></ul>
+    <ul class="minuteOnes"><li>0</li><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li></ul>
+    <span>:</span>
+    <ul class="secondTens"><li>0</li><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li></ul>
+    <ul class="secondOnes"><li>0</li><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li></ul>
+  </div>
+
+  <script>
+    // Set target date (2 months from now)
+    const now = new Date();
+    const targetDate = new Date();
+    targetDate.setMonth(now.getMonth() + 2);
+
+    function updateCountdown() {
+      const currentTime = new Date();
+      let remainingTime = Math.floor((targetDate - currentTime) / 1000); // Convert to seconds
+
+      if (remainingTime <= 0) {
+        document.body.innerHTML = "<h1>Countdown Completed! 🎉</h1>";
+        return;
+      }
+
+      // Calculate days, hours, minutes, and seconds
+      const days = Math.floor(remainingTime / (3600 * 24));
+      remainingTime %= 3600 * 24;
+      const hours = Math.floor(remainingTime / 3600);
+      remainingTime %= 3600;
+      const minutes = Math.floor(remainingTime / 60);
+      const seconds = remainingTime % 60;
+
+      // Extract digits
+      const dTens = Math.floor(days / 10);
+      const dOnes = days % 10;
+      const hTens = Math.floor(hours / 10);
+      const hOnes = hours % 10;
+      const mTens = Math.floor(minutes / 10);
+      const mOnes = minutes % 10;
+      const sTens = Math.floor(seconds / 10);
+      const sOnes = seconds % 10;
+
+      // Update UI
+      document.querySelector(".dayTens").style.transform = `translateY(-${dTens * 2}rem)`;
+      document.querySelector(".dayOnes").style.transform = `translateY(-${dOnes * 2}rem)`;
+      document.querySelector(".hourTens").style.transform = `translateY(-${hTens * 2}rem)`;
+      document.querySelector(".hourOnes").style.transform = `translateY(-${hOnes * 2}rem)`;
+      document.querySelector(".minuteTens").style.transform = `translateY(-${mTens * 2}rem)`;
+      document.querySelector(".minuteOnes").style.transform = `translateY(-${mOnes * 2}rem)`;
+      document.querySelector(".secondTens").style.transform = `translateY(-${sTens * 2}rem)`;
+      document.querySelector(".secondOnes").style.transform = `translateY(-${sOnes * 2}rem)`;
+    }
+
+    // Start countdown
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+
+</body>
+</html>
