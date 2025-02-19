@@ -3,69 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Form</title>
+    <title>Animated Countdown Form</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #282c36;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
             color: white;
+            font-family: Arial, sans-serif;
         }
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
-        input, button {
-            margin-top: 10px;
+        .countdown {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            transition: all 0.5s;
+        }
+        .hidden {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        input {
             padding: 10px;
+            font-size: 1rem;
             border: none;
             border-radius: 5px;
-        }
-        button {
-            background-color: #ff5733;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #ff2e00;
+            margin-top: 10px;
+            outline: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Countdown Timer</h2>
-        <input type="number" id="countdownInput" placeholder="Enter seconds" min="1">
-        <button onclick="startCountdown()">Start Countdown</button>
-        <h1 id="timer">00:00</h1>
+        <div id="countdown" class="countdown"></div>
+        <input type="text" id="formInput" class="hidden" placeholder="Enter your name...">
     </div>
 
     <script>
-        function startCountdown() {
-            let seconds = document.getElementById('countdownInput').value;
-            let timerDisplay = document.getElementById('timer');
-            
-            if (seconds <= 0 || isNaN(seconds)) {
-                alert("Please enter a valid number of seconds");
+        const countdownEl = document.getElementById('countdown');
+        const inputEl = document.getElementById('formInput');
+        let targetDate = new Date();
+        targetDate.setMonth(targetDate.getMonth() + 2);
+
+        function updateCountdown() {
+            const now = new Date();
+            const difference = targetDate - now;
+
+            if (difference <= 0) {
+                countdownEl.classList.add('hidden');
+                inputEl.classList.remove('hidden');
                 return;
             }
-            
-            let countdown = setInterval(function () {
-                let minutes = Math.floor(seconds / 60);
-                let remainingSeconds = seconds % 60;
-                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-                
-                if (seconds <= 0) {
-                    clearInterval(countdown);
-                    alert("Time's up!");
-                }
-                seconds--;
-            }, 1000);
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            countdownEl.textContent = `${days} days left`;
         }
+
+        updateCountdown();
+        setInterval(updateCountdown, 86400000);
     </script>
 </body>
 </html>
